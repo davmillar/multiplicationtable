@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Multiplication Table</title>
+	<script>
+		var buildTable = function (tableWidth, tableHeight) {
+			var holder = document.getElementById('holder'),
+				svgNS = 'http://www.w3.org/2000/svg',
+				currentShape,
+				currentX = 0,
+				currentY = 0,
+				fullHSLParams = '',
+				saturation = 0,
+				lightness = 0,
+				hue = 0;
+
+			for (var i = 0; i < tableHeight; i++) {
+				currentX = 0;
+				currentY += i;
+				saturation = 75 + (25 * i / tableHeight);
+				lightness = 75 - (25 * i / tableHeight);
+				for (var j = 0; j < tableWidth; j++) {
+					currentShape = document.createElementNS(svgNS, 'rect');
+					currentX += j;
+					hue = 30 * j;
+					fullHSLParams = hue + ',' +
+									saturation.toFixed(2) + '%,' +
+									lightness.toFixed(2) + '%';
+					currentShape.setAttributeNS(null, 'x', (currentX)*10);
+					currentShape.setAttributeNS(null, 'y', (currentY)*10);
+					currentShape.setAttributeNS(null, 'fill', 'hsl(' + fullHSLParams +')');
+					currentShape.setAttributeNS(null, 'width', (j+1)*10);
+					currentShape.setAttributeNS(null, 'height', (i+1)*10);
+					holder.appendChild(currentShape);
+				}
+			}
+		};
+	</script>
+</head>
+<body onload="buildTable(12, 12);">
+	<svg version="1.1"
+	     xmlns="http://www.w3.org/2000/svg"
+	     xmlns:xlink="http://www.w3.org/1999/xlink"
+	     width="780"
+	     height="780"
+	     id="holder">
+	     <style type="text/css">
+	     	rect {
+	     		stroke: #444;
+	     		stroke-width: 1;
+	     	}
+	     </style>
+	</svg>
+</body>
+</html>
