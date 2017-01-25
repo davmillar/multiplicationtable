@@ -3,38 +3,59 @@
 <head>
 	<title>Multiplication Table</title>
 	<script>
-		var buildTable = function (tableWidth, tableHeight) {
-			var holder = document.getElementById('holder'),
-				svgNS = 'http://www.w3.org/2000/svg',
-				currentShape,
-				currentX = 0,
-				currentY = 0,
-				fullHSLParams = '',
-				saturation = 0,
-				lightness = 0,
-				hue = 0;
+		var svgNS = 'http://www.w3.org/2000/svg',
+			drawLine = function (x1, x2, y1, y2) {
+				var newLine = document.createElementNS(svgNS, 'line');
+				newLine.setAttributeNS(null, 'x1', x1);
+				newLine.setAttributeNS(null, 'x2', x2);
+				newLine.setAttributeNS(null, 'y1', y1);
+				newLine.setAttributeNS(null, 'y2', y2);
+				return newLine;
+			},
+			buildTable = function (tableWidth, tableHeight) {
+				var holder = document.getElementById('holder'),
+					currentShape,
+					currentX = 0,
+					currentY = 0,
+					fullHSLParams = '',
+					saturation = 0,
+					lightness = 0,
+					hue = 0;
+					maxX = 0;
+					maxY = 0;
 
-			for (var i = 0; i < tableHeight; i++) {
-				currentX = 0;
-				currentY += i;
-				saturation = 75 + (25 * i / tableHeight);
-				lightness = 75 - (25 * i / tableHeight);
-				for (var j = 0; j < tableWidth; j++) {
-					currentShape = document.createElementNS(svgNS, 'rect');
-					currentX += j;
-					hue = 30 * j;
-					fullHSLParams = hue + ',' +
-									saturation.toFixed(2) + '%,' +
-									lightness.toFixed(2) + '%';
-					currentShape.setAttributeNS(null, 'x', (currentX)*10);
-					currentShape.setAttributeNS(null, 'y', (currentY)*10);
-					currentShape.setAttributeNS(null, 'fill', 'hsl(' + fullHSLParams +')');
-					currentShape.setAttributeNS(null, 'width', (j+1)*10);
-					currentShape.setAttributeNS(null, 'height', (i+1)*10);
+				for (var i = 0; i < tableHeight; i++) {
+					currentX = 0;
+					currentY += i;
+					saturation = 75 + (25 * i / tableHeight);
+					lightness = 75 - (50 * i / tableHeight);
+					for (var j = 0; j < tableWidth; j++) {
+						currentShape = document.createElementNS(svgNS, 'rect');
+						currentX += j;
+						hue = 30 * j;
+						fullHSLParams = hue + ',' +
+										saturation.toFixed(2) + '%,' +
+										lightness.toFixed(2) + '%';
+						currentShape.setAttributeNS(null, 'x', (currentX)*10);
+						currentShape.setAttributeNS(null, 'y', (currentY)*10);
+						currentShape.setAttributeNS(null, 'fill', 'hsl(' + fullHSLParams +')');
+						currentShape.setAttributeNS(null, 'width', (j+1)*10);
+						currentShape.setAttributeNS(null, 'height', (i+1)*10);
+						holder.appendChild(currentShape);
+					}
+					maxX = (currentX + tableWidth);
+				}
+				maxY = currentY + tableHeight;
+
+				for (var k = 0; k <= maxX; k++) {
+					currentShape = drawLine(k*10, k*10, 0, maxY * 10);
 					holder.appendChild(currentShape);
 				}
-			}
-		};
+				for (var l = 0; l <= maxY; l++) {
+					currentShape = drawLine(0, maxX * 10, l*10, l*10);
+					holder.appendChild(currentShape);
+				}
+			};
 	</script>
 </head>
 <body onload="buildTable(12, 12);">
@@ -44,12 +65,16 @@
 	     width="780"
 	     height="780"
 	     id="holder">
-	     <style type="text/css">
-	     	rect {
-	     		stroke: #444;
-	     		stroke-width: 1;
-	     	}
-	     </style>
 	</svg>
+	<style type="text/css">
+		rect {
+			stroke: #fff;
+			stroke-width: 2;
+		}
+		line {
+			stroke: #fff;
+			stroke-width: 0.5;
+		}
+	</style>
 </body>
 </html>
