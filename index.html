@@ -122,26 +122,42 @@ fullSVG.setAttribute('viewBox', `0 0 ${vbWidth} ${vbHeight}`);
 	</style>
 </head>
 <body onload="buildTable(12, 14);">
+<h1>Multiplication Table</h1>
+<h2>Drawing <em>is</em> to scale...</h2>
 	<svg version="1.1"
 	     xmlns="http://www.w3.org/2000/svg"
 	     xmlns:xlink="http://www.w3.org/1999/xlink"
 	     id="holder">
 	</svg>
+	<footer>Idea by Joshua Zucker, Design and Code by David Millar, https://davegoesthedistance.com<br/>
+Table concept patented by SilabuS, http://www.silabus.hr</footer>
 	<style type="text/css">
+	    body {
+	    font-family: Arial, sans-serif;
+	    --bgColor: #8fb;
+	    --borderColor: #000;
+	    background: var(--bgColor);
+	    }
 		rect {
-			stroke: #fff;
+			stroke: var(--borderColor);
 			stroke-width: 2;
 		}
 		line {
-			stroke: #fff;
+			stroke: var(--borderColor);
 			stroke-width: 0.5;
 		}
 		text {
 			font-family: Arial, sans-serif;
-			stroke: #fff;
+			stroke: var(--bgColor);
 			stroke-width: 2;
     		paint-order: stroke;
     		font-weight: 800;
+		}
+		footer {
+		    color: #7c9;
+		    text-align: right;
+		    padding: .5em;
+		    font-size: .9em;
 		}
 	</style>
 </body>
