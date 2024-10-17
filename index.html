@@ -24,21 +24,31 @@
 					hue = 0,
 					maxX = 0,
 					maxY = 0,
+					vbWidth = 20,
+					vbHeight = 20,
 					i, j, k, l;
 
+for (var m = 0; m <= tableWidth; m++) {
+ vbWidth += (m * 10);
+}
+
+for (var n = 0; n <= tableHeight; n++) {
+ vbHeight += (n * 10);
+}
 				fullSVG.appendChild(gridHolder);
-				gridHolder.setAttributeNS(null, 'transform', 'translate(10 10)');
+fullSVG.setAttribute('viewBox', `0 0 ${vbWidth} ${vbHeight}`);
+				gridHolder.setAttributeNS(null, 'transform', 'translate(20 20)');
 
 				for (i = 0; i < tableHeight; i++) {
 					currentX = 0;
 					currentY += i;
 					saturation = 75 + (25 * i / tableHeight);
-					lightness = 75 - (50 * i / tableHeight);
+					lightness = 65 - (40 * i / tableHeight);
 
 					for (j = 0; j < tableWidth; j++) {
 						currentShape = document.createElementNS(svgNS, 'rect');
 						currentX += j;
-						hue = 30 * j;
+						hue = 7 * j + 90 - ((i % 2) * j);
 						fullHSLParams = hue + ',' +
 										saturation.toFixed(2) + '%,' +
 										lightness.toFixed(2) + '%';
@@ -69,7 +79,7 @@
 					currentShape = document.createElementNS(svgNS, 'text');
 					currentShape.setAttributeNS(null, 'x', (currentX+1)*10 - 5);
 					currentX -= (0.5 * i);
-					currentShape.setAttributeNS(null, 'y', 0);
+					currentShape.setAttributeNS(null, 'y', -10);
 					currentShape.setAttributeNS(null, 'font-size', 8);
 					currentShape.setAttributeNS(null, 'text-anchor', 'middle');
 					currentShape.textContent = (i+1);
@@ -80,7 +90,7 @@
 				for (i = 0; i < tableHeight; i++) {
 					currentY += (1.5 * i);
 					currentShape = document.createElementNS(svgNS, 'text');
-					currentShape.setAttributeNS(null, 'x', -5);
+					currentShape.setAttributeNS(null, 'x', -15);
 					currentShape.setAttributeNS(null, 'y', (currentY+1)*10 - 2);
 					currentShape.setAttributeNS(null, 'font-size', 8);
 					currentShape.setAttributeNS(null, 'text-anchor', 'middle');
@@ -111,11 +121,10 @@
 		}
 	</style>
 </head>
-<body onload="buildTable(12, 12);">
+<body onload="buildTable(12, 14);">
 	<svg version="1.1"
 	     xmlns="http://www.w3.org/2000/svg"
 	     xmlns:xlink="http://www.w3.org/1999/xlink"
-	     viewBox="0 0 790 790"
 	     id="holder">
 	</svg>
 	<style type="text/css">
