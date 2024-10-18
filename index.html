@@ -12,7 +12,10 @@
 				newLine.setAttributeNS(null, 'y2', y2);
 				return newLine;
 			},
-			buildTable = function (tableWidth, tableHeight) {
+			buildTable = function () {
+				let params = new URLSearchParams(document.location.search);
+				let tableWidth = params.get("w") || 10;
+				let tableHeight = params.get("h") || 10;
 				var fullSVG = document.getElementById('holder'),
 					gridHolder = document.createElementNS(svgNS, 'g'),
 					currentShape,
@@ -48,7 +51,7 @@ fullSVG.setAttribute('viewBox', `0 0 ${vbWidth} ${vbHeight}`);
 					for (j = 0; j < tableWidth; j++) {
 						currentShape = document.createElementNS(svgNS, 'rect');
 						currentX += j;
-						hue = 7 * j + 90 - ((i % 2) * j);
+						hue = (360 / tableHeight) * j;
 						fullHSLParams = hue + ',' +
 										saturation.toFixed(2) + '%,' +
 										lightness.toFixed(2) + '%';
@@ -121,7 +124,7 @@ fullSVG.setAttribute('viewBox', `0 0 ${vbWidth} ${vbHeight}`);
 		}
 	</style>
 </head>
-<body onload="buildTable(12, 14);">
+<body onload="buildTable();">
 <h1>Multiplication Table</h1>
 <h2>Drawing <em>is</em> to scale...</h2>
 	<svg version="1.1"
@@ -132,12 +135,20 @@ fullSVG.setAttribute('viewBox', `0 0 ${vbWidth} ${vbHeight}`);
 	<footer>Idea by Joshua Zucker, Design and Code by David Millar, https://davegoesthedistance.com<br/>
 Table concept patented by SilabuS, http://www.silabus.hr</footer>
 	<style type="text/css">
-	    body {
+		@page {
+			size: 24in 36in;
+		}
+		body {
 	    font-family: Arial, sans-serif;
-	    --bgColor: #8fb;
+	    --bgColor: #fff;
 	    --borderColor: #000;
 	    background: var(--bgColor);
-	    }
+			font-size: 3vw;
+			text-size-adjust: none;
+	  }
+		svg {
+			width: 100%;
+		}
 		rect {
 			stroke: var(--borderColor);
 			stroke-width: 2;
@@ -154,10 +165,10 @@ Table concept patented by SilabuS, http://www.silabus.hr</footer>
     		font-weight: 800;
 		}
 		footer {
-		    color: #7c9;
+		    color: #777;
 		    text-align: right;
-		    padding: .5em;
-		    font-size: .9em;
+		    padding: .5rem;
+		    font-size: .3rem;
 		}
 	</style>
 </body>
