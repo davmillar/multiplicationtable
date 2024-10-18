@@ -51,7 +51,7 @@ fullSVG.setAttribute('viewBox', `0 0 ${vbWidth} ${vbHeight}`);
 					for (j = 0; j < tableWidth; j++) {
 						currentShape = document.createElementNS(svgNS, 'rect');
 						currentX += j;
-						hue = (360 / tableHeight) * j;
+						hue = (360 / tableWidth) * j;
 						fullHSLParams = hue + ',' +
 										saturation.toFixed(2) + '%,' +
 										lightness.toFixed(2) + '%';
