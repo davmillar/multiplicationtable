@@ -12,6 +12,11 @@
 				newLine.setAttributeNS(null, 'y2', y2);
 				return newLine;
 			},
+			getMultiplier = function (n) {
+			    return Math.pow(n, 0.2) * 0.9;
+			},
+			getFontSize = (n) => (7 * n),
+			getYOffset = (n) => (3.5 * n - 5),
 			buildTable = function () {
 				let params = new URLSearchParams(document.location.search);
 				let tableWidth = params.get("w") || 10;
@@ -27,28 +32,29 @@
 					hue = 0,
 					maxX = 0,
 					maxY = 0,
-					vbWidth = 21,
-					vbHeight = 21,
-					i, j, k, l;
+					vbWidth = 26,
+					vbHeight = 26,
+					currentValue,
+					sizeBooster;
 
-for (var m = 0; m <= tableWidth; m++) {
+for (let m = 0; m <= tableWidth; m++) {
  vbWidth += (m * 10);
 }
 
-for (var n = 0; n <= tableHeight; n++) {
+for (let n = 0; n <= tableHeight; n++) {
  vbHeight += (n * 10);
 }
 				fullSVG.appendChild(gridHolder);
 fullSVG.setAttribute('viewBox', `0 0 ${vbWidth} ${vbHeight}`);
-				gridHolder.setAttributeNS(null, 'transform', 'translate(20 20)');
+				gridHolder.setAttributeNS(null, 'transform', 'translate(25 25)');
 
-				for (i = 0; i < tableHeight; i++) {
+				for (let i = 0; i < tableHeight; i++) {
 					currentX = 0;
 					currentY += i;
 					saturation = 75 + (25 * i / tableHeight);
-					lightness = 65 - (40 * i / tableHeight);
+					lightness = 70 - (30 * i / tableHeight);
 
-					for (j = 0; j < tableWidth; j++) {
+					for (let j = 0; j < tableWidth; j++) {
 						currentShape = document.createElementNS(svgNS, 'rect');
 						currentX += j;
 						hue = (360 / tableWidth) * j;
@@ -66,36 +72,40 @@ fullSVG.setAttribute('viewBox', `0 0 ${vbWidth} ${vbHeight}`);
 				}
 				maxY = currentY + tableHeight;
 
-				for (k = 0; k <= maxX; k++) {
+				for (let k = 0; k <= maxX; k++) {
 					currentShape = drawLine(k*10, k*10, 0, maxY * 10);
 					gridHolder.appendChild(currentShape);
 				}
 
-				for (l = 0; l <= maxY; l++) {
+				for (let l = 0; l <= maxY; l++) {
 					currentShape = drawLine(0, maxX * 10, l*10, l*10);
 					gridHolder.appendChild(currentShape);
 				}
 
 				currentX = 0;
-				for (i = 0; i < tableWidth; i++) {
+				for (let i = 0; i < tableWidth; i++) {
+					currentValue = i+1;
+					sizeBooster = getMultiplier(currentValue);
 					currentX += (1.5 * i);
 					currentShape = document.createElementNS(svgNS, 'text');
 					currentShape.setAttributeNS(null, 'x', (currentX+1)*10 - 5);
 					currentX -= (0.5 * i);
-					currentShape.setAttributeNS(null, 'y', -10);
-					currentShape.setAttributeNS(null, 'font-size', 8);
+					currentShape.setAttributeNS(null, 'y', -10 + getYOffset(sizeBooster));
+					currentShape.setAttributeNS(null, 'font-size', 	getFontSize(sizeBooster));
 					currentShape.setAttributeNS(null, 'text-anchor', 'middle');
 					currentShape.textContent = (i+1);
 					gridHolder.appendChild(currentShape);
 				}
 
 				currentY = 0;
-				for (i = 0; i < tableHeight; i++) {
+				for (let i = 0; i < tableHeight; i++) {
+					currentValue = i+1;
+					sizeBooster = getMultiplier(currentValue);
 					currentY += (1.5 * i);
 					currentShape = document.createElementNS(svgNS, 'text');
 					currentShape.setAttributeNS(null, 'x', -15);
-					currentShape.setAttributeNS(null, 'y', (currentY+1)*10 - 2);
-					currentShape.setAttributeNS(null, 'font-size', 8);
+					currentShape.setAttributeNS(null, 'y', (currentY+1)*10 - 2 + getYOffset(sizeBooster));
+					currentShape.setAttributeNS(null, 'font-size', getFontSize(sizeBooster));
 					currentShape.setAttributeNS(null, 'text-anchor', 'middle');
 					currentShape.textContent = (i+1);
 					gridHolder.appendChild(currentShape);
@@ -103,14 +113,16 @@ fullSVG.setAttribute('viewBox', `0 0 ${vbWidth} ${vbHeight}`);
 
 					currentX = 0;
 					for (j = 0; j < tableWidth; j++) {
+					    currentValue = (i+1)*(j+1);
+					    sizeBooster = getMultiplier(currentValue);
 						currentX += (1.5 * j);
 						currentShape = document.createElementNS(svgNS, 'text');
 						currentShape.setAttributeNS(null, 'x', (currentX+1)*10 - 5);
 						currentX -= (0.5 * j);
-						currentShape.setAttributeNS(null, 'y', (currentY+1)*10 - 2);
-						currentShape.setAttributeNS(null, 'font-size', 8);
+						currentShape.setAttributeNS(null, 'y', (currentY+1)*10 - 2 + getYOffset(sizeBooster));
+						currentShape.setAttributeNS(null, 'font-size', getFontSize(sizeBooster));
 						currentShape.setAttributeNS(null, 'text-anchor', 'middle');
-						currentShape.textContent = ((i+1) * (j+1));
+						currentShape.textContent = currentValue;
 						gridHolder.appendChild(currentShape);
 					}
 
